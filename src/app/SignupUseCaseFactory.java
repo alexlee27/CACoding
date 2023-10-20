@@ -1,9 +1,13 @@
 package app;
 
+import interface_adapter.clear_users.ClearController;
+import interface_adapter.clear_users.ClearPresenter;
+import interface_adapter.clear_users.ClearViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import use_case.clear_users.ClearOutputBoundary;
 import use_case.signup.SignupUserDataAccessInterface;
 import entity.CommonUserFactory;
 import entity.UserFactory;
@@ -22,10 +26,11 @@ public class SignupUseCaseFactory {
     private SignupUseCaseFactory() {}
 
     public static SignupView create(
-            ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, SignupViewModel signupViewModel, SignupUserDataAccessInterface userDataAccessObject) {
+            ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, SignupViewModel signupViewModel, SignupUserDataAccessInterface userDataAccessObject, ClearViewModel clearViewModel) {
 
         try {
             SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject);
+            ClearController clearController =
             return new SignupView(signupController, signupViewModel);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -45,5 +50,10 @@ public class SignupUseCaseFactory {
                 userDataAccessObject, signupOutputBoundary, userFactory);
 
         return new SignupController(userSignupInteractor);
+    }
+
+    private static ClearController createClearUseCase() throws IOException {
+
+        // todo: code stuff here lol
     }
 }
